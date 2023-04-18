@@ -8,21 +8,34 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            //ProductTest();
+            ProductTest();
 
-            OrderManager orderManager = new OrderManager(new EfOrderDal());
-            orderManager.GetById(2);
+            //OrderTest();
 
+            //CategoryTest();
+        }
+
+        private static void CategoryTest()
+        {
             CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
             Console.WriteLine(categoryManager.GetById(3).CategoryName);
+        }
+
+        private static void OrderTest()
+        {
+            OrderManager orderManager = new OrderManager(new EfOrderDal());
+            foreach (var orders in orderManager.GetAll())
+            {
+                Console.WriteLine(orders.ShipCity); // FARKLI ŞEHİRLERİ GETİRMEYİ ARAŞTIR, AYNILARINI GETİRMEMESİNİ SAĞLAMAYI ARAŞTIR.//
+            }
         }
 
         private static void ProductTest()
         {
             ProductManager productManager = new ProductManager(new EfProductDal());
-            foreach (var p in productManager.GetAllByUnitPrice(10, 15))
+            foreach (var p in productManager.GetProductDetails())
             {
-                Console.WriteLine(p.ProductName);
+                Console.WriteLine(p.ProductName + " / " + p.CategoryName);
             }
         }
     }
