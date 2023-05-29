@@ -8,9 +8,9 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            ProductTest();
+            //ProductTest();
 
-            //OrderTest();
+            OrderTest();
 
             //CategoryTest();
         }
@@ -24,19 +24,44 @@ namespace ConsoleUI
         private static void OrderTest()
         {
             OrderManager orderManager = new OrderManager(new EfOrderDal());
+            
+            var uniqueCities = new HashSet<string>(); //Unique elements: A HashSet<T> stores a collection of unique elements, meaning that each element is stored only once.
+
             foreach (var orders in orderManager.GetAll())
             {
-                Console.WriteLine(orders.ShipCity); // FARKLI ŞEHİRLERİ GETİRMEYİ ARAŞTIR, AYNILARINI GETİRMEMESİNİ SAĞLAMAYI ARAŞTIR.//
+                uniqueCities.Add(orders.ShipCity);
             }
+
+            foreach (var cities in uniqueCities)
+            {
+                Console.WriteLine(cities);
+            }
+
+            //foreach (var orders in orderManager.GetAll().Select(o=> o.ShipCity).Distinct())
+            //{
+                
+            //    Console.WriteLine(orders);
+
+            //}
         }
 
         private static void ProductTest()
         {
             ProductManager productManager = new ProductManager(new EfProductDal());
-            foreach (var p in productManager.GetProductDetails())
+
+            var result = productManager.GetProductDetails();
+            if (result.Success==true)
             {
-                Console.WriteLine(p.ProductName + " / " + p.CategoryName);
+                foreach (var p in result.Data)
+                {
+                    Console.WriteLine(p.ProductName + " / " + p.CategoryName);
+                }
             }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+
         }
     }
 }

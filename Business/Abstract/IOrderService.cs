@@ -1,4 +1,5 @@
 ﻿using Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,10 @@ namespace Business.Abstract
 {
     public interface IOrderService
     {
+        
         List<Order> GetAll();
         Order GetById(int Id);
+        void Add(Order order);
+        
     }
 }

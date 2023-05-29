@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,17 @@ namespace Business.Concrete
             _orderDal = orderDal;
         }
 
+        public void Add(Order order)
+        {
+            _orderDal.Add(order);
+        }
+
         public List<Order> GetAll()
         {
             return _orderDal.GetAll();
         }
+
+        
 
         public Order GetById(int Id)
         {
