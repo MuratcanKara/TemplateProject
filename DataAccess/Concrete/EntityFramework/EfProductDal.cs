@@ -15,14 +15,33 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfProductDal : EfEntityRepositoryBase<Product, NorthwindContext>, IProductDal
     {
+        //public bool GetByMemberOfCategories(Product product)
+        //{
+        //    using (NorthwindContext context = new NorthwindContext())
+        //    {
+        //        var quantityOfCategories = context.Set<Product>().Select(p => p.CategoryId).Count();
+
+        //        if (quantityOfCategories >10)
+        //        {
+        //            throw new Exception("New item(s) cannot be added because of the max limit of each categories!");                 
+        //        }
+        //        else
+        //        {
+        //            return true;
+        //        }             
+        //    }
+
+
         public List<ProductDetailDto> GetProductDetails()
         {
             using (NorthwindContext context = new NorthwindContext())
             {
-                var result = from p in context.Products join c in context.Categories on p.CategoryId equals c.CategoryId 
-                             select new ProductDetailDto {ProductId = p.ProductId, ProductName = p.ProductName, CategoryName = c.CategoryName, UnitsInStock = p.UnitsInStock };
+                var result = from p in context.Products
+                             join c in context.Categories on p.CategoryId equals c.CategoryId
+                             select new ProductDetailDto { ProductId = p.ProductId, ProductName = p.ProductName, CategoryName = c.CategoryName, UnitsInStock = p.UnitsInStock };
                 return result.ToList();
             }
         }
     }
-}
+}  
+

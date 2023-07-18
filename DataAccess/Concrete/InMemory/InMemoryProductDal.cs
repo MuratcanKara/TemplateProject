@@ -57,6 +57,11 @@ namespace DataAccess.Concrete.InMemory
             return _products.Where(p => p.CategoryId==categoryId).ToList();
         }
 
+        public bool GetByMemberOfCategories(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<ProductDetailDto> GetProductDetails()
         {
             throw new NotImplementedException();
