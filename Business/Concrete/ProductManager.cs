@@ -30,6 +30,13 @@ namespace Business.Concrete
             _categoryService = categoryService;
         }
 
+        //Claim
+        //Password's must be hashed! (MD5, SHA1 etc.) /There is no way to return it.
+        //Hashing : storing datas as unreadable things. It even gives different hashes to same datas.
+        //Salting : Empowering the data that users enter.
+        //Rainbow table : A way to break into an account through using Hash datas that already exist.
+        //Encryption : These datas can be returned back to their original forms. They can be reached by true key(s).
+
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
