@@ -1,5 +1,6 @@
 ﻿using Business.Constants;
 using Castle.DynamicProxy;
+using Core.Extensions;
 using Core.Utilities.Interceptors;
 using Core.Utilities.IoC;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +17,7 @@ namespace Business.BusinessAspects.Autofac
     public class SecuredOperation : MethodInterception
     {
         private string[] _roles;
-        private IHttpContextAccessor _httpContextAccessor; //Her kullanıcı işlem yapmaya çalışığında herbiri için ayrı ayrı
+        private IHttpContextAccessor _httpContextAccessor; //Her kullanıcı işlem yapmaya çalışığında her biri için ayrı ayrı
         //http context oluşur.
 
         public SecuredOperation(string roles)
