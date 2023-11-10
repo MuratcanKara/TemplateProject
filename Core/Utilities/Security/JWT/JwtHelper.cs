@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Core.Entities.Concrete;
+using Core.Extensions;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
 using Microsoft.Extensions.Configuration;
@@ -21,7 +22,7 @@ namespace Core.Utilities.Security.Jwt
         public JwtHelper(IConfiguration configuration)
         {
             Configuration = configuration;
-            _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+            _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>(); // If Get doesn't be called add Mc.Ext.binder from nuget manager.
 
         }
         public AccessToken CreateToken(User user, List<OperationClaim> operationClaims)
@@ -41,8 +42,8 @@ namespace Core.Utilities.Security.Jwt
 
         }
 
-        public JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, User user,
-            SigningCredentials signingCredentials, List<OperationClaim> operationClaims)
+        public JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, User user, //JwtSecurityToken comes from using System.IdentityModel.Tokens.Jwt;
+            SigningCredentials signingCredentials, List<OperationClaim> operationClaims) //SigningCredentials comes from using Microsoft.IdentityModel.Tokens;
         {
             var jwt = new JwtSecurityToken(
                 issuer: tokenOptions.Issuer,
@@ -58,6 +59,11 @@ namespace Core.Utilities.Security.Jwt
         private IEnumerable<Claim> SetClaims(User user, List<OperationClaim> operationClaims)
         {
             var claims = new List<Claim>();
+
+            //.NET'de varolan bir nesneye yeni metotlar ekleyebiliriz.Buna "Extension" denir.
+            //this ICollection<Claim> böyle bir yapı görürsek adlandırılan metotun buradaki ismiyle Claim class'ına ekleneceğini anlamalıyız.
+            //Bir extension metot yazabilmek için hem classın (ClaimExtension) hem de metotun static olması gerekir.
+
             claims.AddNameIdentifier(user.Id.ToString());
             claims.AddEmail(user.Email);
             claims.AddName($"{user.FirstName} {user.LastName}");

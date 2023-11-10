@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -37,6 +38,7 @@ namespace Business.Concrete
         //Rainbow table : A way to break into an account through using Hash datas that already exist.
         //Encryption : These datas can be returned back to their original forms. They can be reached by true key(s).
 
+        [SecuredOperation("product.add")] // Authorization aspectler Business katmanına yazılır çünkü her projenin yetkilendirme algoritması değişebilir.
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {

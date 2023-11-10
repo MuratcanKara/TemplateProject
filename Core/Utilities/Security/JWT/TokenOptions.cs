@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Utilities.Security.JWT
 {
-    public class TokenOptions
+    public class TokenOptions // Helper class
     {
         public string Audience { get; set; }
         public string Issuer { get; set; }
