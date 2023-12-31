@@ -13,6 +13,7 @@ namespace Core.Utilities.IoC
 
         public static IServiceCollection Create(IServiceCollection services) //IServiceCollection, DependencyInjection'dan gelir.
         {
+            // IServiceCollection, bağımlılıkların eklendiği koleksiyonun kendisidir.
             ServiceProvider = services.BuildServiceProvider();
             return services;
         }

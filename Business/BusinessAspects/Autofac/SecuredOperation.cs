@@ -18,7 +18,8 @@ namespace Business.BusinessAspects.Autofac
     {
         private string[] _roles;
         private IHttpContextAccessor _httpContextAccessor; //Her kullanıcı işlem yapmaya çalışığında her biri için ayrı ayrı
-        //http context oluşur.
+        //http context oluşur. Bir kullanıcı için request işleminden respond işlemine kadar kullanıcının isteğinin takip edilme sürecini
+        //httpcontextaccessor yapar.
 
         public SecuredOperation(string roles)
         {
