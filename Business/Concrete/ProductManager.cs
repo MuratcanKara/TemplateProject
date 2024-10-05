@@ -2,6 +2,9 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
@@ -40,6 +43,7 @@ namespace Business.Concrete
 
         [SecuredOperation("product.add,admin")] // Authorization aspectler Business katmanına yazılır çünkü her projenin yetkilendirme algoritması değişebilir.
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
             //if (_productDal.GetByMemberOfCategories(product))
@@ -64,6 +68,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductAdded);
         }
 
+        [CacheAspect] //key, value
         public IDataResult<List<Product>> GetAll()
         {
             if (DateTime.Now.Hour==19)
@@ -84,7 +89,8 @@ namespace Business.Concrete
             return new DataSuccessResult<List<Product>>(_productDal.GetAll(p=>max >= p.UnitPrice && p.UnitPrice >=min),Messages.ProductsListed);
         }
 
-
+        [CacheAspect]
+        [PerformanceAspect(5)]
         public IDataResult<Product> GetById(int Id)
         {
             return new DataSuccessResult<Product>(_productDal.Get(p => p.ProductId == Id),Messages.ProductsListed);
@@ -137,5 +143,10 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Product product)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

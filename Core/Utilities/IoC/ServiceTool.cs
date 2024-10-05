@@ -14,7 +14,7 @@ namespace Core.Utilities.IoC
         public static IServiceCollection Create(IServiceCollection services) //IServiceCollection, DependencyInjection'dan gelir.
         {
             // IServiceCollection, bağımlılıkların eklendiği koleksiyonun kendisidir.
-            ServiceProvider = services.BuildServiceProvider();
+            ServiceProvider = services.BuildServiceProvider(); // BuildServiceProvider(): It is part of the ASP.NET Core framework and is used to construct an instance of the service provider, which is responsible for managing the dependency injection container and resolving dependencies for your application.
             return services;
         }
     }
